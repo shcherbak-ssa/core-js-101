@@ -98,12 +98,13 @@ function getFastestPromise(array) {
  *    });
  *
  */
-async function chainPromises(array, action) {
+function chainPromises(array, action) {
+  throw new Error('Not implemented');
   let result = 0;
 
   for (const promise of array) {
     try {
-      const value = await promise();
+      const value = promise();
       result = action(result, value);
     } catch (error) {
     }
