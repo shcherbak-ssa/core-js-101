@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Core JS 101",
   "scripts": {
+    "dev-test": "mocha",
     "test": "npm run lint && mocha",
     "lint": "node node_modules/eslint/bin/eslint.js ./src"
   },
