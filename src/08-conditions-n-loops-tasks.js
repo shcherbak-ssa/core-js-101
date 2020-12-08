@@ -129,12 +129,14 @@ function doRectanglesOverlap(rect1, rect2) {
         (
           rect1.left >= rect2.left && rect1.left <= rect2.left + rect2.width
         ) || (
+          // eslint-disable-next-line max-len
           rect1.left + rect1.width >= rect2.left && rect1.left + rect1.width <= rect2.left + rect2.width
         )
       ) && (
         (
           rect1.top >= rect2.top && rect1.top <= rect2.top + rect2.height
         ) || (
+          // eslint-disable-next-line max-len
           rect1.top + rect1.height >= rect2.top && rect1.top + rect1.height <= rect2.top + rect2.height
         )
       )
@@ -143,12 +145,14 @@ function doRectanglesOverlap(rect1, rect2) {
         (
           rect2.left >= rect1.left && rect2.left <= rect1.left + rect1.width
         ) || (
+          // eslint-disable-next-line max-len
           rect2.left + rect2.width >= rect1.x && rect2.left + rect2.width <= rect1.left + rect1.width
         )
       ) && (
         (
           rect2.top >= rect1.top && rect2.top <= rect1.top + rect1.height
         ) || (
+          // eslint-disable-next-line max-len
           rect2.top + rect2.height >= rect1.top && rect2.top + rect2.height <= rect1.top + rect1.height
         )
       )
@@ -302,6 +306,7 @@ function isCreditCardNumber(ccn) {
   let sum = 0;
 
   for (let i = 0; i < len; i += 1) {
+    // eslint-disable-next-line radix
     let value = parseInt(number.charAt(i));
 
     if (i % 2 !== 0) value *= 2;

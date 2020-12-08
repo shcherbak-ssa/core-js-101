@@ -63,6 +63,7 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom(...params) {
+  // eslint-disable-next-line max-len
   return (value) => [...params].reverse().reduce((res, item, index) => res + (value ** index) * item, 0);
 }
 

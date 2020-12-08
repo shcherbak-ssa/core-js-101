@@ -453,6 +453,7 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]
  */
 function getIdentityMatrix(n) {
+  // eslint-disable-next-line max-len
   return new Array(n).fill([]).map((_, index) => new Array(n).fill(0).map((it, i) => (index === i ? 1 : 0)));
 }
 

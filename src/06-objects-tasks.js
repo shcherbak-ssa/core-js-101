@@ -124,110 +124,110 @@ function throwOrderExtantion() {
 
 class CssSelector {
   constructor(value, type) {
-    this._element = type === 'element';
-    this._id = type === 'id';
-    this._pseudoElement = type === 'pseudo-element';
-    this._selector = [value];
-    this._order = [type];
-    this._correctOrder = ['element', 'id', 'class', 'attribute', 'pseudo-class', 'pseudo-element'];
+    this.elementValue = type === 'element';
+    this.idValue = type === 'id';
+    this.pseudoElementValue = type === 'pseudo-element';
+    this.selector = [value];
+    this.order = [type];
+    this.correctOrder = ['element', 'id', 'class', 'attribute', 'pseudo-class', 'pseudo-element'];
   }
 
   element(value) {
-    if (this._element) {
+    if (this.elementValue) {
       throwNotMoreOneTimeExtantion();
     }
 
-    if (!this._isCorrectOrder('element')) {
+    if (!this.isCorrectOrder('element')) {
       throwOrderExtantion();
     }
 
-    this._element = true;
-    this._selector.push(value);
+    this.elementValue = true;
+    this.selector.push(value);
 
     return this;
   }
 
   id(value) {
-    if (this._id) {
+    if (this.idValue) {
       throwNotMoreOneTimeExtantion();
     }
 
-    if (!this._isCorrectOrder('id')) {
+    if (!this.isCorrectOrder('id')) {
       throwOrderExtantion();
     }
 
-    this._id = true;
-    this._selector.push(`#${value}`);
+    this.idValue = true;
+    this.selector.push(`#${value}`);
 
     return this;
   }
 
   class(value) {
-    if (!this._isCorrectOrder('class')) {
+    if (!this.isCorrectOrder('class')) {
       throwOrderExtantion();
     }
 
-    this._selector.push(`.${value}`);
+    this.selector.push(`.${value}`);
     return this;
   }
 
   attr(value) {
-    if (!this._isCorrectOrder('attribute')) {
+    if (!this.isCorrectOrder('attribute')) {
       throwOrderExtantion();
     }
 
-    this._selector.push(`[${value}]`);
+    this.selector.push(`[${value}]`);
     return this;
   }
 
   pseudoClass(value) {
-    if (!this._isCorrectOrder('pseudo-class')) {
+    if (!this.isCorrectOrder('pseudo-class')) {
       throwOrderExtantion();
     }
 
-    this._selector.push(`:${value}`);
+    this.selector.push(`:${value}`);
     return this;
   }
 
   pseudoElement(value) {
-    if (this._pseudoElement) {
+    if (this.pseudoElementValue) {
       throwNotMoreOneTimeExtantion();
     }
 
-    if (!this._isCorrectOrder('pseudo-element')) {
+    if (!this.isCorrectOrder('pseudo-element')) {
       throwOrderExtantion();
     }
 
-    this._pseudoElement = true;
-    this._selector.push(`::${value}`);
+    this.pseudoElementValue = true;
+    this.selector.push(`::${value}`);
 
     return this;
   }
 
   stringify() {
-    const selector = this._selector.join('');
-    this._clearData();
+    const selector = this.selector.join('');
+    this.clearData();
     return selector;
   }
 
-  _clearData() {
-    this._element = false;
-    this._id = false;
-    this._pseudoElement = false;
-    this._selector = [];
-    this._order = [];
+  clearData() {
+    this.elementValue = false;
+    this.idValue = false;
+    this.pseudoElementValue = false;
+    this.selector = [];
+    this.order = [];
   }
 
-  _isCorrectOrder(type) {
-    const lastType = this._order[this._order.length - 1];
-    const lastCorrectTypeIndex = this._correctOrder.indexOf(lastType);
-    const currentCorrectTypeIndex = this._correctOrder.indexOf(type);
+  isCorrectOrder(type) {
+    const lastType = this.order[this.order.length - 1];
+    const lastCorrectTypeIndex = this.correctOrder.indexOf(lastType);
+    const currentCorrectTypeIndex = this.correctOrder.indexOf(type);
 
     if (lastCorrectTypeIndex > currentCorrectTypeIndex) {
       return false;
     }
 
-    this._order.push(type);
+    this.order.push(type);
     return true;
   }
 }
