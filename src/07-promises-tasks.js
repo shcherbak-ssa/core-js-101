@@ -99,18 +99,27 @@ function getFastestPromise(array) {
  *
  */
 function chainPromises(array, action) {
-  throw new Error('Not implemented');
-  let result = 0;
+  return new Promise((resolve) => {
+    let finalResult = 0;
 
-  for (const promise of array) {
-    try {
-      const value = promise();
-      result = action(result, value);
-    } catch (error) {
-    }
-  }
+    promiseSettled(array)
+      .then((results) => {
+        const firstValue = results.shift();
+        finalResult = firstValue.value;
 
-  return result;
+        results.forEach((result) => {
+          if (result.status === "fulfilled") {
+            finalResult = action(finalResult, result.value);
+          }
+        });
+
+        resolve(finalResult);
+      });
+  });
+}
+
+function promiseSettled(array) {
+  return Promise.allSettled(array);
 }
 
 module.exports = {
