@@ -32,7 +32,7 @@
  * @return {RegExp}
  */
 function getRegexForGuid() {
-  return /^\{[abcdef0-9]{8}\-[abcdef0-9]{4}\-[abcdef0-9]{4}\-[abcdef0-9]{4}\-[abcdef0-9]{12}\}$/i;
+  return /^\{[abcdef0-9]{8}-[abcdef0-9]{4}-[abcdef0-9]{4}-[abcdef0-9]{4}-[abcdef0-9]{12}\}$/i;
 }
 
 
@@ -54,7 +54,7 @@ function getRegexForGuid() {
  *
  */
 function getRegexForPitSpot() {
-  return /[is]/
+  return /[is]/;
 }
 
 
@@ -79,6 +79,7 @@ function getRegexForPitSpot() {
  *   'Pa55'.match(validator) => false
  */
 function getPasswordValidator(minLength) {
+  // eslint-disable-next-line no-useless-escape
   return new RegExp(`^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[^\s_][0-9a-zA-Z]{${minLength},}`);
 }
 

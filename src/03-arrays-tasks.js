@@ -84,7 +84,7 @@ function getArrayOfPositives(arr) {
  *    [ 'cat, 'dog', 'raccoon' ] => [ 'cat', 'dog', 'raccoon' ]
  */
 function getArrayOfStrings(arr) {
-  return arr.filter((item) => typeof(item) === 'string');
+  return arr.filter((item) => typeof (item) === 'string');
 }
 
 /**
@@ -312,7 +312,7 @@ function get3TopItems(arr) {
  *   [ 1, '2' ] => 1
  */
 function getPositivesCount(arr) {
-  return arr.reduce((res, item) => typeof(item) === 'number' && item > 0 ? res + 1 : res, 0);
+  return arr.reduce((res, item) => (typeof (item) === 'number' && item > 0 ? res + 1 : res), 0);
 }
 
 /**
@@ -365,7 +365,7 @@ function getItemsSum(arr) {
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
 function getFalsyValuesCount(arr) {
-  return arr.reduce((res, item) => !item ? res + 1 : res, 0);
+  return arr.reduce((res, item) => (!item ? res + 1 : res), 0);
 }
 
 /**
@@ -383,7 +383,7 @@ function getFalsyValuesCount(arr) {
  *    [ true, 0, 1, 'true' ], true => 1
  */
 function findAllOccurences(arr, item) {
-  return arr.reduce((res, it) => it === item ? res + 1 : res, 0);
+  return arr.reduce((res, it) => (it === item ? res + 1 : res), 0);
 }
 
 /**
@@ -431,7 +431,7 @@ function toStringList(arr) {
 function sortCitiesArray(arr) {
   return arr
     .sort((a, b) => a.country.localeCompare(b.country))
-    .sort((a, b) => a.country === b.country ? a.city.localeCompare(b.city) : 0);
+    .sort((a, b) => (a.country === b.country ? a.city.localeCompare(b.city) : 0));
 }
 
 /**
@@ -453,7 +453,7 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]
  */
 function getIdentityMatrix(n) {
-  return new Array(n).fill([]).map((_, index) => new Array(n).fill(0).map((_, i) => index === i ? 1 : 0));
+  return new Array(n).fill([]).map((_, index) => new Array(n).fill(0).map((it, i) => (index === i ? 1 : 0)));
 }
 
 /**
@@ -470,7 +470,12 @@ function getIdentityMatrix(n) {
  *     3, 3   => [ 3 ]
  */
 function getIntervalArray(start, end) {
-  return new Array(end - start + 1).fill(0).map(() => start++);
+  let value = start - 1;
+  // eslint-disable-next-line no-return-assign
+  return new Array(end - start + 1).fill(0).map(() => {
+    value += 1;
+    return value;
+  });
 }
 
 /**
@@ -487,7 +492,7 @@ function getIntervalArray(start, end) {
 function distinct(arr) {
   return arr.reduce((result, item) => {
     if (result.indexOf(item) === -1) {
-      result.push(item)
+      result.push(item);
     }
 
     return result;

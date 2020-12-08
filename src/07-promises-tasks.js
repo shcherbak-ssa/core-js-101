@@ -98,6 +98,10 @@ function getFastestPromise(array) {
  *    });
  *
  */
+function promiseSettled(array) {
+  return Promise.allSettled(array);
+}
+
 function chainPromises(array, action) {
   return new Promise((resolve) => {
     let finalResult = 0;
@@ -108,7 +112,7 @@ function chainPromises(array, action) {
         finalResult = firstValue.value;
 
         results.forEach((result) => {
-          if (result.status === "fulfilled") {
+          if (result.status === 'fulfilled') {
             finalResult = action(finalResult, result.value);
           }
         });
@@ -118,9 +122,6 @@ function chainPromises(array, action) {
   });
 }
 
-function promiseSettled(array) {
-  return Promise.allSettled(array);
-}
 
 module.exports = {
   willYouMarryMe,

@@ -63,9 +63,7 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom(...params) {
-  return (value) => {
-    return [...params].reverse().reduce((res, item, index) => res + (value ** index) * item, 0);
-  };
+  return (value) => [...params].reverse().reduce((res, item, index) => res + (value ** index) * item, 0);
 }
 
 
@@ -111,7 +109,7 @@ function retry(func, attempts) {
     } catch (error) {
       return retry(func, attempts)();
     }
-  }
+  };
 }
 
 
@@ -149,7 +147,7 @@ function logger(func, logFunc) {
 
       return res;
     }
-    
+
     logFunc(`${func.name}(${value}) starts`);
     logFunc(`${func.name}(${value}) ends`);
 
@@ -194,7 +192,11 @@ function partialUsingArguments(fn, ...args1) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-  return () => startFrom++;
+  let value = startFrom - 1;
+  return () => {
+    value += 1;
+    return value;
+  };
 }
 
 

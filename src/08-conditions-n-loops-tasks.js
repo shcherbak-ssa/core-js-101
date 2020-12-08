@@ -123,7 +123,7 @@ function isTriangle(a, b, c) {
  *
  */
 function doRectanglesOverlap(rect1, rect2) {
-  return(
+  return (
     (
       (
         (
@@ -138,7 +138,7 @@ function doRectanglesOverlap(rect1, rect2) {
           rect1.top + rect1.height >= rect2.top && rect1.top + rect1.height <= rect2.top + rect2.height
         )
       )
-    )||(
+    ) || (
       (
         (
           rect2.left >= rect1.left && rect2.left <= rect1.left + rect1.width
@@ -184,7 +184,7 @@ function doRectanglesOverlap(rect1, rect2) {
  *
  */
 function isInsideCircle(circle, point) {
-  return (point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2 < circle.radius ** 2
+  return (point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2 < circle.radius ** 2;
 }
 
 
@@ -357,7 +357,7 @@ function getDigitalRoot(num) {
 function isBracketsBalanced(str) {
   if (str === '') return true;
 
-  const parsedStr = str.replace(/\[\]|\(\)|\{\}|\<\>/g, '');
+  const parsedStr = str.replace(/\[\]|\(\)|\{\}|<>/g, '');
   return parsedStr === str ? false : isBracketsBalanced(parsedStr);
 }
 
@@ -386,6 +386,7 @@ function toNaryString(num, n) {
   const result = [];
 
   let number = num;
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     if (number < n) {
       result.push(number);
@@ -420,7 +421,9 @@ function getCommonDirectoryPath(pathes) {
   const result = [];
 
   let index = 0;
+  // eslint-disable-next-line no-constant-condition
   while (true) {
+    // eslint-disable-next-line no-loop-func
     const parts = parsedPathes.map((path) => path[index]);
     const firstPart = parts.shift();
     const notCommon = parts.find((part) => firstPart !== part);
@@ -431,7 +434,7 @@ function getCommonDirectoryPath(pathes) {
     index += 1;
   }
 
-  return result.length === 0 ? '' : result.join('/') + '/';
+  return result.length === 0 ? '' : `${result.join('/')}/`;
 }
 
 
@@ -521,27 +524,11 @@ function evaluateTicTacToePosition(position) {
     '--.-.-.--',
   ];
 
-  const parsedPosition = position.map((item) => {
-    if (item.length === 2) item.push(undefined);
-    return item.map((it) => it === undefined ? '-' : it).join('');
-  });
-  const zeroPosition = parsedPosition.map((item) => item.replace(/[X0]/g, (val) => {
-    if (val === '0') return '.';
-    else return '-';
-  })).join('');
-  const xPosition = parsedPosition.map((item) => item.replace(/[X0]/g, (val) => {
-    if (val === 'X') return '.';
-    else return '-';
-  })).join('');
-
-  if (check(zeroPosition)) return '0';
-  if (check(xPosition)) return 'X';
-  return undefined;
-
   function check(currentPosition) {
     let checkedPosition = [];
+    let isFound = false;
 
-    for (const winPosition of winPositions) {
+    winPositions.forEach((winPosition) => {
       for (let i = 0, len = winPosition.length; i < len; i += 1) {
         if (currentPosition[i] === winPosition[i]) {
           checkedPosition.push(currentPosition[i]);
@@ -550,13 +537,33 @@ function evaluateTicTacToePosition(position) {
         }
       }
 
-      if (checkedPosition.join('') === winPosition) return true;
+      if (checkedPosition.join('') === winPosition) {
+        isFound = true;
+        return;
+      }
 
       checkedPosition = [];
-    }
+    });
 
-    return false;
+    return isFound;
   }
+
+  const parsedPosition = position.map((item) => {
+    if (item.length === 2) item.push(undefined);
+    return item.map((it) => (it === undefined ? '-' : it)).join('');
+  });
+  const zeroPosition = parsedPosition.map((item) => item.replace(/[X0]/g, (val) => {
+    if (val === '0') return '.';
+    return '-';
+  })).join('');
+  const xPosition = parsedPosition.map((item) => item.replace(/[X0]/g, (val) => {
+    if (val === 'X') return '.';
+    return '-';
+  })).join('');
+
+  if (check(zeroPosition)) return '0';
+  if (check(xPosition)) return 'X';
+  return undefined;
 }
 
 

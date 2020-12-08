@@ -55,6 +55,7 @@ function getJSON(obj) {
  */
 function fromJSON(proto, json) {
   const parsedJson = JSON.parse(json);
+  // eslint-disable-next-line no-proto
   parsedJson.__proto__ = proto;
   return parsedJson;
 }
@@ -113,6 +114,13 @@ function fromJSON(proto, json) {
  *
  *  For more examples see unit tests.
  */
+function throwNotMoreOneTimeExtantion() {
+  throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
+}
+
+function throwOrderExtantion() {
+  throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
+}
 
 class CssSelector {
   constructor(value, type) {
@@ -126,11 +134,11 @@ class CssSelector {
 
   element(value) {
     if (this._element) {
-      this._throwNotMoreOneTimeExtantion();
+      throwNotMoreOneTimeExtantion();
     }
 
     if (!this._isCorrectOrder('element')) {
-      this._throwOrderExtantion();
+      throwOrderExtantion();
     }
 
     this._element = true;
@@ -141,31 +149,31 @@ class CssSelector {
 
   id(value) {
     if (this._id) {
-      this._throwNotMoreOneTimeExtantion();
+      throwNotMoreOneTimeExtantion();
     }
 
     if (!this._isCorrectOrder('id')) {
-      this._throwOrderExtantion();
+      throwOrderExtantion();
     }
 
     this._id = true;
-    this._selector.push('#' + value);
+    this._selector.push(`#${value}`);
 
     return this;
   }
 
   class(value) {
     if (!this._isCorrectOrder('class')) {
-      this._throwOrderExtantion();
+      throwOrderExtantion();
     }
 
-    this._selector.push('.' + value);
+    this._selector.push(`.${value}`);
     return this;
   }
 
   attr(value) {
     if (!this._isCorrectOrder('attribute')) {
-      this._throwOrderExtantion();
+      throwOrderExtantion();
     }
 
     this._selector.push(`[${value}]`);
@@ -174,24 +182,24 @@ class CssSelector {
 
   pseudoClass(value) {
     if (!this._isCorrectOrder('pseudo-class')) {
-      this._throwOrderExtantion();
+      throwOrderExtantion();
     }
 
-    this._selector.push(':' + value);
+    this._selector.push(`:${value}`);
     return this;
   }
 
   pseudoElement(value) {
     if (this._pseudoElement) {
-      this._throwNotMoreOneTimeExtantion();
+      throwNotMoreOneTimeExtantion();
     }
 
     if (!this._isCorrectOrder('pseudo-element')) {
-      this._throwOrderExtantion();
+      throwOrderExtantion();
     }
 
     this._pseudoElement = true;
-    this._selector.push('::' + value);
+    this._selector.push(`::${value}`);
 
     return this;
   }
@@ -222,14 +230,6 @@ class CssSelector {
     this._order.push(type);
     return true;
   }
-
-  _throwNotMoreOneTimeExtantion() {
-    throw new Error('Element, id and pseudo-element should not occur more then one time inside the selector');
-  }
-
-  _throwOrderExtantion() {
-    throw new Error('Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element');
-  }
 }
 
 const cssSelectorBuilder = {
@@ -238,11 +238,11 @@ const cssSelectorBuilder = {
   },
 
   id(value) {
-    return new CssSelector('#' + value, 'id');
+    return new CssSelector(`#${value}`, 'id');
   },
 
   class(value) {
-    return new CssSelector('.' + value, 'class');
+    return new CssSelector(`.${value}`, 'class');
   },
 
   attr(value) {
@@ -250,11 +250,11 @@ const cssSelectorBuilder = {
   },
 
   pseudoClass(value) {
-    return new CssSelector(':' + value, 'pseudo-class');
+    return new CssSelector(`:${value}`, 'pseudo-class');
   },
 
   pseudoElement(value) {
-    return new CssSelector('::' + value, 'pseudo-element');
+    return new CssSelector(`::${value}`, 'pseudo-element');
   },
 
   combine(selector1, combinator, selector2) {
